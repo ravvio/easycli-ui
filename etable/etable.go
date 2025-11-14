@@ -178,9 +178,9 @@ func (c TableColumn) WithStyleFunc(
 
 // A rapresentation of a Table.
 type Table struct {
-	columns     []TableColumn
-	rows        []TableRow
-	style       TableStyle
+	columns []TableColumn
+	rows    []TableRow
+	style   TableStyle
 }
 
 // Create a new Table given its columns as TableColumn.
@@ -191,9 +191,9 @@ type Table struct {
 //	t := etable.NewTable(columns)
 func NewTable(columns []TableColumn) Table {
 	return Table{
-		columns:     columns,
-		rows:        []TableRow{},
-		style:       TableStyleDefault,
+		columns: columns,
+		rows:    []TableRow{},
+		style:   TableStyleDefault,
 	}
 }
 
