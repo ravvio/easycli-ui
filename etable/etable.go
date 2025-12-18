@@ -189,8 +189,8 @@ type Table struct {
 //		etable.NewTableColumn(key, title)
 //	}
 //	t := etable.NewTable(columns)
-func NewTable(columns []TableColumn) Table {
-	return Table{
+func NewTable(columns []TableColumn) *Table {
+	return &Table{
 		columns: columns,
 		rows:    []TableRow{},
 		style:   TableStyleDefault,
@@ -200,7 +200,7 @@ func NewTable(columns []TableColumn) Table {
 // Specify the style of the Table.
 //
 //	t := etable.NewTable(columns).WithStyle(etable.TableStyleMarkdown)
-func (t Table) WithStyle(s TableStyle) Table {
+func (t *Table) WithStyle(s TableStyle) *Table {
 	t.style = s
 	return t
 }
@@ -211,7 +211,7 @@ func (t Table) WithStyle(s TableStyle) Table {
 //	rows := make([]etable.TableRow, 0)
 //	// fill rows
 //	t.WithRows(rows)
-func (t Table) WithRows(rows []TableRow) Table {
+func (t *Table) WithRows(rows []TableRow) *Table {
 	t.rows = rows
 	return t
 }
