@@ -37,27 +37,9 @@ var TableStyleDefault = TableStyle{
 
 // TableStyle for markdown formatting of the table
 var TableStyleMarkdown = TableStyle{
-	HeaderStyle: lipgloss.NewStyle().Bold(true).Padding(0, 1),
-	RowStyle:    lipgloss.NewStyle().Padding(0, 1),
-	BorderStyle: lipgloss.Border{
-		Left:  "|",
-		Right: "|",
-
-		Top:      "-",
-		TopLeft:  "|",
-		TopRight: "|",
-
-		Bottom:      "-",
-		BottomLeft:  "|",
-		BottomRight: "|",
-
-		Middle:      "|",
-		MiddleLeft:  "|",
-		MiddleRight: "|",
-
-		MiddleTop:    "|",
-		MiddleBottom: "|",
-	},
+	HeaderStyle:  lipgloss.NewStyle().Bold(true).Padding(0, 1),
+	RowStyle:     lipgloss.NewStyle().Padding(0, 1),
+	BorderStyle:  lipgloss.MarkdownBorder(),
 	BorderHeader: true,
 	BorderColumn: true,
 	BorderTop:    false,
