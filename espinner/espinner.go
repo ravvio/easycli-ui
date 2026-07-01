@@ -3,9 +3,9 @@ package espinner
 import (
 	"fmt"
 
-	"github.com/charmbracelet/bubbles/spinner"
-	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/lipgloss"
+	tea "charm.land/bubbletea/v2"
+	"charm.land/bubbles/v2/spinner"
+	"charm.land/lipgloss/v2"
 )
 
 // The bubbletea.Msg sent when the spinner should stop
@@ -72,9 +72,9 @@ func (m SpinnerModel) Init() tea.Cmd {
 
 func (m SpinnerModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
-	case tea.KeyMsg:
-		switch msg.Type {
-		case tea.KeyCtrlC:
+	case tea.KeyPressMsg:
+		switch msg.String() {
+		case "ctrl+c":
 			return m, tea.Quit
 		}
 	case spinnerMsgStop:
@@ -90,7 +90,7 @@ func (m SpinnerModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, cmd
 }
 
-func (m SpinnerModel) View() string {
+func (m SpinnerModel) View() tea.View {
 	s := ""
 	if !m.done {
 		s += m.style.ProgressStyle.Render(fmt.Sprintf("%s %s", m.inner.View(), m.title))
@@ -102,7 +102,7 @@ func (m SpinnerModel) View() string {
 		}
 	}
 	s += "\n"
-	return s
+	return tea.NewView(s)
 }
 
 func (m SpinnerModel) Err() error {
