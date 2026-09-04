@@ -3,8 +3,8 @@ package espinner
 import (
 	"fmt"
 
-	tea "charm.land/bubbletea/v2"
 	"charm.land/bubbles/v2/spinner"
+	tea "charm.land/bubbletea/v2"
 	"charm.land/lipgloss/v2"
 )
 
@@ -37,12 +37,13 @@ var SpinnerStyleDefault = SpinnerStyle{
 // Bubbletea model of the spinner, wraps spinner.Model and contains the task
 // to execute
 type SpinnerModel struct {
-	title string
-	task  SpinnerTask
-	inner spinner.Model
-	style SpinnerStyle
-	err   error
-	done  bool
+	inner          spinner.Model
+	title          string
+	task           SpinnerTask
+	style          SpinnerStyle
+	successMessage string
+	err            error
+	done           bool
 }
 
 // Create a new SpinnerModel.
@@ -50,12 +51,13 @@ func NewSpinner(title string, task SpinnerTask) SpinnerModel {
 	s := spinner.New()
 	s.Spinner = spinner.Line
 	return SpinnerModel{
-		title: title,
-		task:  task,
-		style: SpinnerStyleDefault,
-		inner: s,
-		err:   nil,
-		done:  false,
+		inner:          s,
+		title:          title,
+		task:           task,
+		style:          SpinnerStyleDefault,
+		successMessage: "Done",
+		err:            nil,
+		done:           false,
 	}
 }
 
@@ -96,9 +98,9 @@ func (m SpinnerModel) View() tea.View {
 		s += m.style.ProgressStyle.Render(fmt.Sprintf("%s %s", m.inner.View(), m.title))
 	} else {
 		if m.err != nil {
-			s += m.style.FailureStyle.Render(fmt.Sprintf("* %s ... Failed: %v", m.title, m.err))
+			s += m.style.FailureStyle.Render(fmt.Sprintf("* %s ... %v", m.title, m.err))
 		} else {
-			s += m.style.SuccessStyle.Render(fmt.Sprintf("* %s ... Done", m.title))
+			s += m.style.SuccessStyle.Render(fmt.Sprintf("* %s ... %v", m.title, m.successMessage))
 		}
 	}
 	s += "\n"
@@ -131,6 +133,11 @@ func (m SpinnerModel) WithSpinner(s Spinner) SpinnerModel {
 func (m SpinnerModel) WithSpinnerStyle(s lipgloss.Style) SpinnerModel {
 	m.inner.Style = s
 	return m
+}
+
+// Update the SpinnerModel success message displayed at the end of the task.
+func (m *SpinnerModel) SetSuccessMessage(msg string) {
+	m.successMessage = msg
 }
 
 // Run the SpinnerModel.
